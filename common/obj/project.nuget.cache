@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "odL4CKYNujM=",
+  "success": true,
+  "projectFilePath": "D:\\Development-cache\\rider_project\\common\\common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ethereal\\.nuget\\packages\\serilog\\4.2.0\\serilog.4.2.0.nupkg.sha512",
+    "C:\\Users\\ethereal\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
