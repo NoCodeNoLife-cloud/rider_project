@@ -6,11 +6,12 @@ using Serilog.Events;
 
 namespace Common.Trace;
 
-public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCallItem callItem) : MoAttribute
+[AttributeUsage(AttributeTargets.Method)]
+public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCalledItem calledItem) : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{
-		if (callItem.HasFlag(TraceCallItem.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItem.HasFlag(TraceCalledItem.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} start", logEventLevel);
 		}
@@ -20,7 +21,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCallItem
 
 	public override void OnException(MethodContext context)
 	{
-		if (callItem.HasFlag(TraceCallItem.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItem.HasFlag(TraceCalledItem.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
 		}
@@ -30,7 +31,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCallItem
 
 	public override void OnSuccess(MethodContext context)
 	{
-		if (callItem.HasFlag(TraceCallItem.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItem.HasFlag(TraceCalledItem.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} success", logEventLevel);
 		}
@@ -40,7 +41,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCallItem
 
 	public override void OnExit(MethodContext context)
 	{
-		if (callItem.HasFlag(TraceCallItem.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItem.HasFlag(TraceCalledItem.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} end", logEventLevel);
 		}

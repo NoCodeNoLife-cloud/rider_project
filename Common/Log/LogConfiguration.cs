@@ -7,9 +7,11 @@ namespace Common.Log;
 
 public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, string logFormat) : IConfigurable
 {
-	[JsonInclude] private bool WriteToConsole { get; } = writeToConsole;
-	[JsonInclude] private LogEventLevel LogEventLevel { get; } = logEventLevel;
-	[JsonInclude] private string LogFormat { get; } = logFormat;
+	[JsonInclude] private bool WriteToConsole { get; set; } = writeToConsole;
+	[JsonInclude] private LogEventLevel LogEventLevel { get; set; } = logEventLevel;
+	[JsonInclude] private string LogFormat { get; set; } = logFormat;
+
+	public LogConfiguration() : this(false, LogEventLevel.Debug, "") { }
 
 	public void Configure()
 	{

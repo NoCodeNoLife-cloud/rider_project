@@ -7,15 +7,7 @@ namespace Application;
 
 public static class Program
 {
-	static Program()
-	{
-		List<IConfigurable> configurableList = [];
-		ConfigurationManager.LoadConfiguration<LogConfiguration>(configurableList, typeof(LogConfiguration));
-		ConfigurationManager.ConfigureAll(configurableList);
-
-		Serilog.Log.Logger.LogWithCallerInfo("finished configuration", LogEventLevel.Debug);
-	}
-
+	[EnableConfig<LogConfiguration>("Application/Configuration/Serilog-settings.json")]
 	[EnableTracePerformance(LogEventLevel.Debug)]
 	public static void Main(string[] args) { }
 }
