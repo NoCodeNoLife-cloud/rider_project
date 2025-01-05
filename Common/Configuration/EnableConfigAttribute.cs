@@ -7,7 +7,7 @@ using Serilog.Events;
 namespace Common.Configuration;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class EnableConfigAttribute<T>(string? settingFilePath) : MoAttribute where T : IConfigurable, new()
+public class EnableConfigAttribute<TV, TS>(string? settingFilePath) : MoAttribute where TV : IConfigurable, new() where TS : IFileSerializable
 {
 	private const string RootPath = "../../../../";
 
@@ -16,21 +16,21 @@ public class EnableConfigAttribute<T>(string? settingFilePath) : MoAttribute whe
 		IConfigurable? config;
 		if (settingFilePath == null)
 		{
-			config = new T();
+			config = new TV();
 		}
 		else
 		{
 			var configurationPath = RootPath + settingFilePath;
-			config = JsonFileSerializer.DeserializeFromFile<T>(configurationPath);
+			config = TS.DeserializeFromFile<TV>(configurationPath);
 		}
 
-		config.Configure();
+		config?.Configure();
 		base.OnEntry(context);
 	}
 
 	public override void OnSuccess(MethodContext context)
 	{
-		Serilog.Log.Logger.LogWithCallerInfo($"finished configure {typeof(T)} from {settingFilePath}", LogEventLevel.Debug);
+		Serilog.Log.Logger.LogWithCallerInfo($"finished configure {typeof(TV)} from {settingFilePath}", LogEventLevel.Debug);
 		base.OnSuccess(context);
 	}
 }

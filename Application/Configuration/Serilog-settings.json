@@ -1,5 +1,0 @@
-{
-  "WriteToConsole": true,
-  "LogEventLevel": 1,
-  "LogFormat": "[{Timestamp:HH:mm:ss}] ({FileUrl}:{LineNumber}) [{ThreadName}] [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-}

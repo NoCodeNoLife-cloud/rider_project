@@ -2,15 +2,16 @@
 
 namespace Common.FileSystem.Serializer;
 
-public static class JsonFileSerializer
+public abstract class JsonFileSerializer : IFileSerializable
 {
-	public static void SerializerToFile<T>(T obj, string filePath, JsonSerializerOptions options)
+	public static void SerializeToFile<T>(T obj, string filePath)
 	{
 		if (obj == null)
 		{
 			throw new ArgumentNullException(nameof(obj), "obj is null");
 		}
 
+		var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
 		var json = JsonSerializer.Serialize(obj, options);
 		File.WriteAllText(filePath, json);
 	}

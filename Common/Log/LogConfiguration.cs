@@ -1,15 +1,16 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Xml.Serialization;
 using Common.Configuration;
 using Serilog;
 using Serilog.Events;
 
 namespace Common.Log;
 
+[Serializable]
 public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, string logFormat) : IConfigurable
 {
-	[JsonInclude] private bool WriteToConsole { get; set; } = writeToConsole;
-	[JsonInclude] private LogEventLevel LogEventLevel { get; set; } = logEventLevel;
-	[JsonInclude] private string LogFormat { get; set; } = logFormat;
+	[XmlElement] public bool WriteToConsole { get; set; } = writeToConsole;
+	[XmlElement] public LogEventLevel LogEventLevel { get; set; } = logEventLevel;
+	[XmlElement] public string LogFormat { get; set; } = logFormat;
 
 	public LogConfiguration() : this(false, LogEventLevel.Debug, "") { }
 
@@ -56,5 +57,10 @@ public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, 
 			default:
 				throw new ArgumentOutOfRangeException(nameof(loggerConfiguration), LogEventLevel, null);
 		}
+	}
+
+	public override string ToString()
+	{
+		return $"{nameof(WriteToConsole)}: {WriteToConsole}, {nameof(LogEventLevel)}: {LogEventLevel}, {nameof(LogFormat)}: {LogFormat}";
 	}
 }
