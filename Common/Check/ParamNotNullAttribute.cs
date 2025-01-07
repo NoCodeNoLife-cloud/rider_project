@@ -1,9 +1,9 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class NotNullAttribute : Attribute, IParameterCheck
+public class ParamNotNullAttribute : Attribute, IParameterCheck
 {
-	public static void Check(object? value)
+	public void Check(object? value)
 	{
 		if (value == null)
 		{

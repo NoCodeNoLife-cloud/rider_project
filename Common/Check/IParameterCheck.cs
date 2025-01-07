@@ -2,5 +2,5 @@
 
 public interface IParameterCheck
 {
-	public static abstract void Check(object? value);
+	public void Check(object? value);
 }
