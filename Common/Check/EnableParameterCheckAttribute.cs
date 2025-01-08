@@ -12,10 +12,8 @@ public class EnableParameterCheckAttribute : MoAttribute
 		var parameters = context.Method.GetParameters();
 		foreach (var (parameter, index) in parameters.Select((value, index) => (value, index)))
 		{
-			var paramNotNullAttr = parameter.GetCustomAttribute<ParamNotNullAttribute>();
-			var paramPositiveAttr = parameter.GetCustomAttribute<ParamPositiveAttribute>();
-			var paramNegativeAttr = parameter.GetCustomAttribute<ParamNegativeAttribute>();
-			var attributes = new List<IParameterCheck?> { paramNotNullAttr, paramPositiveAttr, paramNegativeAttr };
+			var paramNotNullAttr = parameter.GetCustomAttribute<NotNullAttribute>();
+			var attributes = new List<IParameterCheck?> { paramNotNullAttr };
 
 			foreach (var attribute in attributes)
 			{
