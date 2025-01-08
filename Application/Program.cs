@@ -8,7 +8,9 @@ namespace Application;
 
 public static class Program
 {
-	[EnableConfig<LogConfiguration, XmlFileSerializer>("Application/Configuration/Serilog-settings.xml")]
+	private const string SerilogSettingPath = "Application/Configuration/Serilog-settings.xml";
+
+	[EnableConfig<LogConfiguration, XmlFileSerializer>(SerilogSettingPath)]
 	[EnableTracePerformance(LogEventLevel.Debug)]
 	public static void Main(string[] args) { }
 }

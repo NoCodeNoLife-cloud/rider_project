@@ -12,12 +12,14 @@ public class EnableParameterCheckAttribute : MoAttribute
 		var parameters = context.Method.GetParameters();
 		foreach (var (parameter, index) in parameters.Select((value, index) => (value, index)))
 		{
-			var paramNotNullAttr = parameter.GetCustomAttribute<NotNullAttribute>();
-			var attributes = new List<IParameterCheck?> { paramNotNullAttr };
+			var parameterAttributes = parameter.GetCustomAttributes();
 
-			foreach (var attribute in attributes)
+			foreach (var attribute in parameterAttributes)
 			{
-				attribute?.Check(context.Arguments[index]);
+				if (attribute is IParameterCheck parameterCheck)
+				{
+					parameterCheck.Check(context.Arguments[index]);
+				}
 			}
 		}
 
