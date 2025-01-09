@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using Common.Check;
 
-namespace Application;
+namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
 public class NotEmptyAttribute : Attribute, IParameterCheck

@@ -1,27 +1,24 @@
-﻿using System.Collections.Concurrent;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.Caching;
 using Rougamo;
 using Rougamo.Context;
 
 namespace Common.Cache;
 
-public class EnableCachedAttribute : MoAttribute
+public class EnableCachedAttribute(int seconds) : MoAttribute
 {
-	private static readonly ConcurrentDictionary<MethodBase, ConcurrentDictionary<object?[], object?>> MethodCache = new();
+	private static readonly MemoryCache MethodRequestCache = MemoryCache.Default;
 
 	public override void OnEntry(MethodContext context)
 	{
 		var method = context.Method;
-		if (!MethodCache.TryGetValue(method, out var cache))
-		{
-			cache = new ConcurrentDictionary<object?[], object?>(new ArrayEqualityComparer());
-			MethodCache.TryAdd(method, cache);
-		}
-
 		var contextArguments = context.Arguments;
-		if (cache.TryGetValue(contextArguments, out var cachedResult))
+		var cacheKey = GetCacheKey(method, contextArguments);
+
+		var cachedResult = MethodRequestCache.Get(cacheKey);
+		if (cachedResult != null)
 		{
-			context.ReplaceReturnValue(this, cachedResult!);
+			context.ReplaceReturnValue(this, cachedResult);
 		}
 
 		base.OnEntry(context);
@@ -29,25 +26,23 @@ public class EnableCachedAttribute : MoAttribute
 
 	public override void OnSuccess(MethodContext context)
 	{
-		var method = MethodCache[context.Method];
-		method[context.Arguments] = context.ReturnValue;
+		var method = context.Method;
+		var contextArguments = context.Arguments;
+		var cacheKey = GetCacheKey(method, contextArguments);
+
+		if (context.ReturnValue != null)
+		{
+			var cachePolicy = new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds) };
+			MethodRequestCache.Set(cacheKey, context.ReturnValue, cachePolicy);
+		}
+
 		base.OnSuccess(context);
 	}
 
-	private class ArrayEqualityComparer : IEqualityComparer<object?[]>
+	private static string GetCacheKey(MethodBase method, object?[] arguments)
 	{
-		public bool Equals(object?[]? x, object?[]? y)
-		{
-			if (x == null || y == null) return x == y;
-			return x.Length == y.Length && x.SequenceEqual(y);
-		}
-
-		public int GetHashCode(object?[] obj)
-		{
-			unchecked
-			{
-				return obj.Aggregate(17, (current, item) => current * 31 + (item?.GetHashCode() ?? 0));
-			}
-		}
+		var methodKey = method.DeclaringType?.FullName + "." + method.Name;
+		var argumentsKey = string.Join(",", arguments.Select(arg => arg?.ToString() ?? "null"));
+		return $"{methodKey}({argumentsKey})";
 	}
 }
