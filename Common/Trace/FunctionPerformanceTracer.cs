@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Common.Log;
+using Common.Log.Serilog;
 using Serilog.Events;
 
 namespace Common.Trace;

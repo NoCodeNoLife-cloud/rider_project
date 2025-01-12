@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Common.Log;
+using Common.Log.Serilog;
 using Rougamo;
 using Rougamo.Context;
 using Serilog.Events;

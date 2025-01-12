@@ -1,6 +1,6 @@
 ﻿using Common.Configuration;
 using Common.FileSystem.Serializer;
-using Common.Log;
+using Common.Log.Serilog;
 using Common.Trace;
 using Serilog.Events;
 

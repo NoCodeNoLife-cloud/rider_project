@@ -2,17 +2,31 @@
 using Common.Configuration;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Common.Log;
+namespace Common.Log.Serilog;
 
 [Serializable]
-public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, string logFormat) : IConfigurable
+public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, string logFormat, string ansiConsoleTheme) : IConfigurable
 {
 	[XmlElement] public bool WriteToConsole { get; set; } = writeToConsole;
 	[XmlElement] public LogEventLevel LogEventLevel { get; set; } = logEventLevel;
 	[XmlElement] public string LogFormat { get; set; } = logFormat;
+	[XmlElement] public string Theme { get; set; } = ansiConsoleTheme;
 
-	public LogConfiguration() : this(false, LogEventLevel.Debug, "") { }
+	public LogConfiguration() : this(false, LogEventLevel.Debug, "", "Code") { }
+
+	private AnsiConsoleTheme GetTheme()
+	{
+		return Theme switch
+		{
+			"Code" => AnsiConsoleTheme.Code,
+			"Grayscale" => AnsiConsoleTheme.Grayscale,
+			"Literate" => AnsiConsoleTheme.Literate,
+			"Sixteen" => AnsiConsoleTheme.Sixteen,
+			_ => AnsiConsoleTheme.Code
+		};
+	}
 
 	public void Configure()
 	{
@@ -21,14 +35,14 @@ public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, 
 		SetLogOutput(loggerConfiguration);
 		SetLogEventLevel(loggerConfiguration);
 
-		Serilog.Log.Logger = loggerConfiguration.CreateLogger();
+		global::Serilog.Log.Logger = loggerConfiguration.CreateLogger();
 	}
 
 	private void SetLogOutput(LoggerConfiguration loggerConfiguration)
 	{
 		if (WriteToConsole)
 		{
-			loggerConfiguration.WriteTo.Console(outputTemplate: LogFormat);
+			loggerConfiguration.WriteTo.Console(theme: GetTheme(), outputTemplate: LogFormat);
 		}
 	}
 
@@ -57,10 +71,5 @@ public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, 
 			default:
 				throw new ArgumentOutOfRangeException(nameof(loggerConfiguration), LogEventLevel, null);
 		}
-	}
-
-	public override string ToString()
-	{
-		return $"{nameof(WriteToConsole)}: {WriteToConsole}, {nameof(LogEventLevel)}: {LogEventLevel}, {nameof(LogFormat)}: {LogFormat}";
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace Common.Log;
+namespace Common.Log.Serilog;
 
 public class DynamicCallerInfoEnrich(string callerThreadName, string callerMemberName, string callerFileUrl, int callerLineNumber) : ILogEventEnricher
 {

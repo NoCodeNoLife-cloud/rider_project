@@ -2,5 +2,6 @@
 <LogConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <WriteToConsole>true</WriteToConsole>
   <LogEventLevel>Debug</LogEventLevel>
-  <LogFormat>[{Timestamp:HH:mm:ss}] ({FileUrl}:{LineNumber}) [{ThreadName}] [{Level:u3}] {Message:lj}{NewLine}{Exception}</LogFormat>
+  <LogFormat>[{Timestamp:HH:mm:ss}] ({FileUrl,36}:{LineNumber,4}) [{ThreadName,-16}] [{Level,-12}] {Message:lj}{NewLine}{Exception}</LogFormat>
+  <Theme>Sixteen</Theme>
 </LogConfiguration>
