@@ -39,7 +39,7 @@ public class FunctionPerformanceTracer : IDisposable
 			{
 				_stopwatch?.Stop();
 				var callerMethodName = GetCallerMethodName();
-				Serilog.Log.Logger.LogWithCallerInfo($"{callerMethodName} finished in {_stopwatch?.ElapsedMilliseconds} ms.", _logEventLevel);
+				Serilog.Log.Logger.LogColoredWithCallerInfo($"{callerMethodName} finished in {_stopwatch?.ElapsedMilliseconds} ms.", _logEventLevel);
 			}
 		}
 

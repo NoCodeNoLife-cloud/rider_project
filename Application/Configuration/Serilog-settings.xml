@@ -3,5 +3,5 @@
   <WriteToConsole>true</WriteToConsole>
   <LogEventLevel>Debug</LogEventLevel>
   <LogFormat>[{Timestamp:HH:mm:ss}] ({FileUrl,36}:{LineNumber,4}) [{ThreadName,-16}] [{Level,-12}] {Message:lj}{NewLine}{Exception}</LogFormat>
-  <Theme>Sixteen</Theme>
+  <Theme>Literate</Theme>
 </LogConfiguration>

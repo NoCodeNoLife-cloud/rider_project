@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Common.Log;
 using Common.Log.Serilog;
 using Rougamo;
 using Rougamo.Context;
@@ -14,7 +13,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCalledIt
 	{
 		if (calledItem.HasFlag(TraceCalledItem.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} start", logEventLevel);
+			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} start", logEventLevel);
 		}
 
 		base.OnEntry(context);
@@ -24,7 +23,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCalledIt
 	{
 		if (calledItem.HasFlag(TraceCalledItem.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
+			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
 		}
 
 		base.OnException(context);
@@ -34,7 +33,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCalledIt
 	{
 		if (calledItem.HasFlag(TraceCalledItem.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} success", logEventLevel);
+			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} success", logEventLevel);
 		}
 
 		base.OnSuccess(context);
@@ -44,7 +43,7 @@ public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCalledIt
 	{
 		if (calledItem.HasFlag(TraceCalledItem.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithCallerInfo($"{GetCallerMethodName()} end", logEventLevel);
+			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} end", logEventLevel);
 		}
 
 		base.OnExit(context);

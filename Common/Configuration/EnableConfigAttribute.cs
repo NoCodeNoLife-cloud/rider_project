@@ -25,7 +25,7 @@ public class EnableConfigAttribute<TV, TS>(string? settingFilePath) : MoAttribut
 		}
 
 		config?.Configure();
-		Serilog.Log.Logger.LogWithCallerInfo($"finished configure {typeof(TV)} from {settingFilePath}", LogEventLevel.Debug);
+		Serilog.Log.Logger.LogColoredWithCallerInfo($"finished configure {typeof(TV)} from {settingFilePath}", LogEventLevel.Debug);
 		base.OnEntry(context);
 	}
 }
