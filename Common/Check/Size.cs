@@ -3,10 +3,10 @@
 namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class SizeAttribute(int min, int max) : Attribute, IParameterCheck
+public class Size(int minValue, int maxValue) : Attribute, IParameterCheck
 {
-	private int Min { get; } = min;
-	private int Max { get; } = max;
+	private int MinValue { get; } = minValue;
+	private int MaxValue { get; } = maxValue;
 
 	public void Check(object? value)
 	{
@@ -17,9 +17,9 @@ public class SizeAttribute(int min, int max) : Attribute, IParameterCheck
 			case string str:
 			{
 				var length = str.Length;
-				if (length < Min || length > Max)
+				if (length < MinValue || length > MaxValue)
 				{
-					throw new ArgumentException($"String length must be between {Min} and {Max} characters.");
+					throw new ArgumentException($"String length must be between {MinValue} and {MaxValue} characters.");
 				}
 
 				break;
@@ -27,9 +27,9 @@ public class SizeAttribute(int min, int max) : Attribute, IParameterCheck
 			case ICollection collection:
 			{
 				var count = collection.Count;
-				if (count < Min || count > Max)
+				if (count < MinValue || count > MaxValue)
 				{
-					throw new ArgumentException($"Collection size must be between {Min} and {Max}.");
+					throw new ArgumentException($"Collection size must be between {MinValue} and {MaxValue}.");
 				}
 
 				break;
@@ -39,9 +39,9 @@ public class SizeAttribute(int min, int max) : Attribute, IParameterCheck
 				if (value is Array array)
 				{
 					var length = array.Length;
-					if (length < Min || length > Max)
+					if (length < MinValue || length > MaxValue)
 					{
-						throw new ArgumentException($"Array length must be between {Min} and {Max}.");
+						throw new ArgumentException($"Array length must be between {MinValue} and {MaxValue}.");
 					}
 				}
 				else

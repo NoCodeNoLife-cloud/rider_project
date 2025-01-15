@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using Common.Log.Serilog;
+using Serilog.Events;
 
 namespace Common.FileSystem.Serializer;
 
@@ -16,7 +18,7 @@ public abstract class JsonFileSerializer : IFileSerializable
 		File.WriteAllText(filePath, json);
 	}
 
-	public static T DeserializeFromFile<T>(string filePath)
+	public static T? DeserializeFromFile<T>(string filePath)
 	{
 		if (!File.Exists(filePath))
 		{

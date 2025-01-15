@@ -1,4 +1,5 @@
 ﻿using Common.Configuration;
+using Common.Exception;
 using Common.FileSystem.Serializer;
 using Common.Log.Serilog;
 using Common.Trace;
@@ -10,7 +11,8 @@ public static class Program
 {
 	private const string SerilogSettingPath = "Application/Configuration/Serilog-settings.xml";
 
-	[EnableConfig<LogConfiguration, XmlFileSerializer>(SerilogSettingPath)]
-	[EnableTracePerformance(LogEventLevel.Debug)]
+	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath)]
+	[TracePerformance(LogEventLevel.Debug)]
+	[HandleException]
 	public static void Main(string[] args) { }
 }

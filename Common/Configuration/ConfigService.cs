@@ -7,7 +7,7 @@ using Serilog.Events;
 namespace Common.Configuration;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class EnableConfigAttribute<TV, TS>(string? settingFilePath) : MoAttribute where TV : IConfigurable, new() where TS : IFileSerializable
+public class ConfigService<TV, TS>(string? settingFilePath) : MoAttribute where TV : IConfigurable, new() where TS : IFileSerializable
 {
 	private const string RootPath = "../../../../";
 

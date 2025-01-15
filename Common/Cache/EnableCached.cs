@@ -5,7 +5,7 @@ using Rougamo.Context;
 
 namespace Common.Cache;
 
-public class EnableCachedAttribute(int seconds) : MoAttribute
+public class EnableCached(int seconds) : MoAttribute
 {
 	private static readonly MemoryCache MethodRequestCache = MemoryCache.Default;
 

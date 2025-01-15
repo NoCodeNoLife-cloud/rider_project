@@ -7,7 +7,7 @@ using Serilog.Events;
 namespace Common.Trace;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class EnableTraceCallAttribute(LogEventLevel logEventLevel, TraceCalledItem calledItem) : MoAttribute
+public class TraceCall(LogEventLevel logEventLevel, TraceCalledItem calledItem) : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{

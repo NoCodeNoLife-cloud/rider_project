@@ -1,9 +1,9 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class MaxAttribute(double max) : Attribute, IParameterCheck
+public class Min(double minValue) : Attribute, IParameterCheck
 {
-	private double Max { get; } = max;
+	private double MinValue { get; } = minValue;
 
 	public void Check(object? value)
 	{
@@ -13,9 +13,9 @@ public class MaxAttribute(double max) : Attribute, IParameterCheck
 				throw new ArgumentException("Value cannot be null.");
 			case IComparable comparable:
 			{
-				if (comparable.CompareTo(Max) > 0)
+				if (comparable.CompareTo(MinValue) < 0)
 				{
-					throw new ArgumentException($"Value must be less than or equal to {Max}.");
+					throw new ArgumentException($"Value must be greater than or equal to {MinValue}.");
 				}
 
 				break;

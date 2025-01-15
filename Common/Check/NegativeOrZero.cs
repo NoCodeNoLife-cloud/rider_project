@@ -1,7 +1,7 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class NegativeOrZeroAttribute : Attribute, IParameterCheck
+public class NegativeOrZero : Attribute, IParameterCheck
 {
 	public void Check(object? value)
 	{

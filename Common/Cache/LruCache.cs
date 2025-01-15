@@ -1,4 +1,8 @@
-﻿namespace Common.Cache;
+﻿using Common.Check;
+using Common.Log.Serilog;
+using Serilog.Events;
+
+namespace Common.Cache;
 
 public class LruCache<TK, TV> where TK : notnull
 {

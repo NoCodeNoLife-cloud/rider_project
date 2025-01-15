@@ -4,8 +4,8 @@ using Rougamo.Context;
 
 namespace Common.Check;
 
-[AttributeUsage(AttributeTargets.Method)]
-public class EnableParameterCheckAttribute : MoAttribute
+[AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method)]
+public class ParameterCheck : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{

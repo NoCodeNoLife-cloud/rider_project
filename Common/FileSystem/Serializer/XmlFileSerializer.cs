@@ -1,5 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
+using Common.Log.Serilog;
+using Serilog.Events;
 
 namespace Common.FileSystem.Serializer;
 
