@@ -11,8 +11,8 @@ public static class Program
 {
 	private const string SerilogSettingPath = "Application/Configuration/Serilog-settings.xml";
 
-	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath)]
-	[TracePerformance(LogEventLevel.Debug)]
+	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath, LogEventLevel.Information)]
+	[TracePerformance(LogEventLevel.Information)]
 	[HandleException]
 	public static void Main(string[] args) { }
 }
