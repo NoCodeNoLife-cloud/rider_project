@@ -1,26 +1,13 @@
 ﻿using Common.Check;
-using Common.Log.Serilog;
-using Serilog.Events;
 
 namespace Common.Cache;
 
-public class LruCache<TK, TV> where TK : notnull
+[method: CheckParameter]
+public class LruCache<TK, TV>([Positive] int capacity)
+	where TK : notnull
 {
-	private readonly int _capacity;
-	private readonly Dictionary<TK, LinkedListNode<(TK Key, TV Value)>> _cache;
-	private readonly LinkedList<(TK Key, TV Value)> _order;
-
-	public LruCache(int capacity)
-	{
-		if (capacity <= 0)
-		{
-			throw new ArgumentException("Capacity must be greater than zero.");
-		}
-
-		_capacity = capacity;
-		_cache = new Dictionary<TK, LinkedListNode<(TK, TV)>>(capacity);
-		_order = new LinkedList<(TK, TV)>();
-	}
+	private readonly Dictionary<TK, LinkedListNode<(TK Key, TV Value)>> _cache = new(capacity);
+	private readonly LinkedList<(TK Key, TV Value)> _order = new();
 
 	public TV Get(TK key)
 	{
@@ -44,7 +31,7 @@ public class LruCache<TK, TV> where TK : notnull
 		}
 		else
 		{
-			if (_cache.Count >= _capacity)
+			if (_cache.Count >= capacity)
 			{
 				if (_order.Last != null)
 				{

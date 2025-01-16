@@ -11,30 +11,37 @@ public partial class HandleException : MoAttribute
 {
 	public override void OnException(MethodContext context)
 	{
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"{FormatException(context.Exception!)}", LogEventLevel.Error);
+		Serilog.Log.Logger.LogColoredWithCallerInfo($"{FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Error);
 		context.HandledException(this, context.ReturnValue!);
 	}
 
-	[GeneratedRegex(@"at\s+.+\s+in\s+.*\\([^\s]+):line\s+(\d+)")]
+	[GeneratedRegex(@"\s+at\s+(.*)\s+in\s+(.+):line\s+(\d+)")]
 	private static partial Regex MyRegex();
 
-	private static string FormatException(System.Exception ex)
+	private static string FormatExceptionStackTrace(System.Exception ex)
 	{
-		var exceptionType = ex.GetType().ToString();
-		var message = ex.Message;
 		var stackTrace = ex.StackTrace;
-
-		if (stackTrace == null) return string.Empty;
-
-		var match = MyRegex().Match(stackTrace);
-		if (!match.Success)
+		if (stackTrace == null)
 		{
-			return string.Empty;
+			return ex.ToString();
 		}
 
-		var fileName = match.Groups[1].Value;
-		var lineNumber = match.Groups[2].Value;
+		var lines = stackTrace.Split('\n');
+		var regex = MyRegex();
 
-		return $"{exceptionType} in {fileName}:{lineNumber} => {message} ";
+		for (var i = 0; i < lines.Length; i++)
+		{
+			lines[i] = regex.Replace(lines[i], match =>
+			{
+				var method = match.Groups[1].Value;
+				var filePath = match.Groups[2].Value;
+				var lineNumber = match.Groups[3].Value;
+
+				var fileName = Path.GetFileName(filePath);
+				return $"   at {method} in {fileName}:{lineNumber}";
+			});
+		}
+
+		return $"{ex.GetType()}: {ex.Message}\n{string.Join("\n", lines)}";
 	}
 }

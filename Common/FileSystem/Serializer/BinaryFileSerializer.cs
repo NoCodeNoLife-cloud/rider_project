@@ -1,7 +1,5 @@
-﻿using Common.Log.Serilog;
-using MessagePack;
+﻿using MessagePack;
 using MessagePack.Resolvers;
-using Serilog.Events;
 
 namespace Common.FileSystem.Serializer;
 

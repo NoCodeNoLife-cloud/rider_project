@@ -5,7 +5,7 @@ using Rougamo.Context;
 namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method)]
-public class ParameterCheck : MoAttribute
+public class CheckParameter : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{
