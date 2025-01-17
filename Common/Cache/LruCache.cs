@@ -7,7 +7,7 @@ public class LruCache<TK, TV>([Positive] int capacity)
 	where TK : notnull
 {
 	private readonly Dictionary<TK, LinkedListNode<(TK Key, TV Value)>> _cache = new(capacity);
-	private readonly LinkedList<(TK Key, TV Value)> _order = new();
+	private readonly LinkedList<(TK Key, TV Value)> _order = [];
 
 	public TV Get(TK key)
 	{
