@@ -5,7 +5,7 @@ using Serilog.Events;
 namespace Common.Trace;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class TracePerformance(LogEventLevel logEventLevel) : MoAttribute
+public class RecordMethodTime(LogEventLevel logEventLevel) : MoAttribute
 {
 	private FunctionPerformanceTracer? _functionPerformanceTracker;
 

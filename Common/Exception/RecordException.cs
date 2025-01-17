@@ -7,12 +7,18 @@ using Serilog.Events;
 namespace Common.Exception;
 
 [AttributeUsage(AttributeTargets.Method)]
-public partial class HandleException : MoAttribute
+public partial class RecordException(bool ignoreEnabled = false) : MoAttribute
 {
 	public override void OnException(MethodContext context)
 	{
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"{FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Error);
-		context.HandledException(this, context.ReturnValue!);
+		if (ignoreEnabled)
+		{
+			Serilog.Log.Logger.LogColoredWithCallerInfo($"ignored exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Warning);
+			context.HandledException(this, context.ReturnValue!);
+			return;
+		}
+
+		Serilog.Log.Logger.LogColoredWithCallerInfo($"throw exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Error);
 	}
 
 	[GeneratedRegex(@"\s+at\s+(.*)\s+in\s+(.+):line\s+(\d+)")]
