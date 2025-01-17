@@ -7,11 +7,11 @@ using Serilog.Events;
 namespace Common.Exception;
 
 [AttributeUsage(AttributeTargets.Method)]
-public partial class RecordException(bool ignoreEnabled = false) : MoAttribute
+public partial class RecordException(bool ignore = false) : MoAttribute
 {
 	public override void OnException(MethodContext context)
 	{
-		if (ignoreEnabled)
+		if (ignore)
 		{
 			Serilog.Log.Logger.LogColoredWithCallerInfo($"ignored exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Warning);
 			context.HandledException(this, context.ReturnValue!);

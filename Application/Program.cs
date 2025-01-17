@@ -1,5 +1,4 @@
 ﻿using Common.Banner;
-using Common.Cache;
 using Common.Configuration;
 using Common.Exception;
 using Common.FileSystem.Serializer;
