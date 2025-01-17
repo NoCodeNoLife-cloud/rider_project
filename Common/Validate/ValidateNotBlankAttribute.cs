@@ -1,7 +1,7 @@
-﻿namespace Common.Check;
+﻿namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class NotBlank : Attribute, IParameterCheck
+public class ValidateNotBlankAttribute : Attribute, IValidateParameter
 {
 	public void Check(object? value)
 	{

@@ -1,0 +1,4 @@
+writeToConsole: true
+logEventLevel: Debug
+logFormat: '{Timestamp:HH:mm:ss} {FileUrl,36}:{LineNumber,-4} {ThreadName,-16} {Level,12} {Message:lj}{NewLine}'
+theme: Literate

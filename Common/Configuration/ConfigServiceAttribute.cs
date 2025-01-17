@@ -7,7 +7,7 @@ using Serilog.Events;
 namespace Common.Configuration;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class ConfigService<TV, TS>(string? settingFilePath, LogEventLevel logEventLevel) : MoAttribute where TV : IConfigurable, new() where TS : IFileSerializable
+public class ConfigServiceAttribute<TV, TS>(string? settingFilePath, LogEventLevel logEventLevel) : MoAttribute where TV : IConfigurable, new() where TS : IFileSerializable
 {
 	private const string RootPath = "../../../../";
 
@@ -25,7 +25,7 @@ public class ConfigService<TV, TS>(string? settingFilePath, LogEventLevel logEve
 		}
 
 		config?.Configure();
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"finished configure {typeof(TV)} from {settingFilePath}", logEventLevel);
+		Serilog.Log.Logger.LogWithLevel($"finished configure {typeof(TV)} from {settingFilePath}", logEventLevel);
 		base.OnEntry(context);
 	}
 }

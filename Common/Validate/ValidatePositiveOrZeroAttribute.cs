@@ -1,7 +1,7 @@
-﻿namespace Common.Check;
+﻿namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class Positive : Attribute, IParameterCheck
+public class ValidatePositiveOrZeroAttribute : Attribute, IValidateParameter
 {
 	public void Check(object? value)
 	{
@@ -11,9 +11,9 @@ public class Positive : Attribute, IParameterCheck
 				throw new ArgumentException("Value cannot be null.");
 			case IComparable comparable:
 			{
-				if (comparable.CompareTo(0) <= 0)
+				if (comparable.CompareTo(0) < 0)
 				{
-					throw new ArgumentException("Value must be a positive number.");
+					throw new ArgumentException("Value must be a positive or zero number.");
 				}
 
 				break;

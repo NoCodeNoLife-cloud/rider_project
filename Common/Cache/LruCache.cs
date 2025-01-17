@@ -1,9 +1,6 @@
-﻿using Common.Check;
+﻿namespace Common.Cache;
 
-namespace Common.Cache;
-
-[method: CheckParameter]
-public class LruCache<TK, TV>([Positive] int capacity)
+public class LruCache<TK, TV>(int capacity)
 	where TK : notnull
 {
 	private readonly Dictionary<TK, LinkedListNode<(TK Key, TV Value)>> _cache = new(capacity);

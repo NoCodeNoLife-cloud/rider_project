@@ -1,8 +1,10 @@
-﻿namespace Common.Check;
+﻿namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class PositiveOrZero : Attribute, IParameterCheck
+public class ValidateMaxAttribute(double maxValue) : Attribute, IValidateParameter
 {
+	private double MaxValue { get; } = maxValue;
+
 	public void Check(object? value)
 	{
 		switch (value)
@@ -11,9 +13,9 @@ public class PositiveOrZero : Attribute, IParameterCheck
 				throw new ArgumentException("Value cannot be null.");
 			case IComparable comparable:
 			{
-				if (comparable.CompareTo(0) < 0)
+				if (comparable.CompareTo(MaxValue) > 0)
 				{
-					throw new ArgumentException("Value must be a positive or zero number.");
+					throw new ArgumentException($"Value must be less than or equal to {MaxValue}.");
 				}
 
 				break;

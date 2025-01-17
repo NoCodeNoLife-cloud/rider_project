@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 
-namespace Common.Check;
+namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class NotEmpty : Attribute, IParameterCheck
+public class ValidateNotEmptyAttribute : Attribute, IValidateParameter
 {
 	public void Check(object? value)
 	{
