@@ -1,5 +1,4 @@
 ﻿using Common.Banner;
-using Common.Check;
 using Common.Configuration;
 using Common.Exception;
 using Common.FileSystem.Serializer;
@@ -11,7 +10,7 @@ namespace Application;
 
 public static class Program
 {
-	private const string SerilogSettingPath = "Application/Configuration/Serilog-settings.xml";
+	private const string SerilogSettingPath = "Common/Log/Serilog/Serilog-settings.xml";
 
 	[ShowBanner]
 	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath, LogEventLevel.Information)]
