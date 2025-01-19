@@ -8,8 +8,8 @@ namespace Common.FileSystem.Serializer;
 
 public abstract class XmlFileSerializer : IFileSerializable
 {
-	[CheckParameter]
-	public static void SerializeToFile<T>([NotNull] T obj, [NotBlank] string filePath)
+	[ValidateParameter]
+	public static void SerializeToFile<T>([ValidateNotNull] T obj, [ValidateNotBlank] string filePath)
 	{
 		var serializer = new XmlSerializer(typeof(T));
 		var settings = new XmlWriterSettings
@@ -23,8 +23,8 @@ public abstract class XmlFileSerializer : IFileSerializable
 		serializer.Serialize(writer, obj);
 	}
 
-	[CheckParameter]
-	public static T? DeserializeFromFile<T>([FileExists] string filePath)
+	[ValidateParameter]
+	public static T? DeserializeFromFile<T>([ValidateFileExists] string filePath)
 	{
 		var serializer = new XmlSerializer(typeof(T));
 		using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);

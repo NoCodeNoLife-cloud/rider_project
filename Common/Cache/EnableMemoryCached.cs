@@ -5,7 +5,7 @@ using Rougamo.Context;
 
 namespace Common.Cache;
 
-public class EnableCached(int seconds) : MoAttribute
+public class EnableMemoryCached(int seconds) : MoAttribute
 {
 	private static readonly MemoryCache MethodRequestCache = MemoryCache.Default;
 
@@ -34,6 +34,10 @@ public class EnableCached(int seconds) : MoAttribute
 		{
 			var cachePolicy = new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds) };
 			MethodRequestCache.Set(cacheKey, context.ReturnValue, cachePolicy);
+		}
+		else
+		{
+			throw new ArgumentNullException(nameof(context), "return value cannot be null");
 		}
 
 		base.OnSuccess(context);

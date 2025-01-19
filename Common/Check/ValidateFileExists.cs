@@ -1,7 +1,7 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class FileExists : Attribute, IParameterCheck
+public class ValidateFileExists : Attribute, IValidateParameter
 {
 	public void Check(object? value)
 	{

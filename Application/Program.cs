@@ -13,7 +13,7 @@ public static class Program
 	private const string SerilogSettingPath = "Common/Log/Serilog/Serilog-settings.xml";
 
 	[ShowBanner]
-	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath, LogEventLevel.Information)]
+	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath, LogEventLevel.Debug)]
 	[RecordMethodTime(LogEventLevel.Information)]
 	[RecordException(true)]
 	public static void Main() { }

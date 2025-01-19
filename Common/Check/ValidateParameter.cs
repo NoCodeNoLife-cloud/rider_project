@@ -5,7 +5,7 @@ using Rougamo.Context;
 namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method)]
-public class CheckParameter : MoAttribute
+public class ValidateParameter : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{
@@ -16,7 +16,7 @@ public class CheckParameter : MoAttribute
 
 			foreach (var attribute in parameterAttributes)
 			{
-				if (attribute is IParameterCheck parameterCheck)
+				if (attribute is IValidateParameter parameterCheck)
 				{
 					parameterCheck.Check(context.Arguments[index]);
 				}

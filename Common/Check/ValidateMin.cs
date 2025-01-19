@@ -1,7 +1,7 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class Min(double minValue) : Attribute, IParameterCheck
+public class ValidateMin(double minValue) : Attribute, IValidateParameter
 {
 	private double MinValue { get; } = minValue;
 

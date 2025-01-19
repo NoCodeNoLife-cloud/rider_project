@@ -1,6 +1,4 @@
-﻿using Common.Check;
-
-namespace Common.Cache;
+﻿namespace Common.Cache;
 
 public class LruCache<TK, TV>(int capacity)
 	where TK : notnull

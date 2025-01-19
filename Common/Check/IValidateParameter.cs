@@ -1,6 +1,6 @@
 ﻿namespace Common.Check;
 
-public interface IParameterCheck
+public interface IValidateParameter
 {
 	public void Check(object? value);
 }

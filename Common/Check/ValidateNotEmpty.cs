@@ -3,7 +3,7 @@
 namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class NotEmpty : Attribute, IParameterCheck
+public class ValidateNotEmpty : Attribute, IValidateParameter
 {
 	public void Check(object? value)
 	{

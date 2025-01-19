@@ -1,7 +1,7 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class Max(double maxValue) : Attribute, IParameterCheck
+public class ValidateMax(double maxValue) : Attribute, IValidateParameter
 {
 	private double MaxValue { get; } = maxValue;
 

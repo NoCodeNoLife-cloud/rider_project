@@ -7,16 +7,16 @@ namespace Common.FileSystem.Serializer;
 
 public abstract class JsonFileSerializer : IFileSerializable
 {
-	[CheckParameter]
-	public static void SerializeToFile<T>([NotNull] T obj, [NotBlank]string filePath)
+	[ValidateParameter]
+	public static void SerializeToFile<T>([ValidateNotNull] T obj, [ValidateNotBlank]string filePath)
 	{
 		var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
 		var json = JsonSerializer.Serialize(obj, options);
 		File.WriteAllText(filePath, json);
 	}
 
-	[CheckParameter]
-	public static T? DeserializeFromFile<T>([FileExists] string filePath)
+	[ValidateParameter]
+	public static T? DeserializeFromFile<T>([ValidateFileExists] string filePath)
 	{
 		var json = File.ReadAllText(filePath);
 		var obj = JsonSerializer.Deserialize<T>(json);
