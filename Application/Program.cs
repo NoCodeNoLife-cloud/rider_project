@@ -10,10 +10,10 @@ namespace Application;
 
 public static class Program
 {
-	private const string SerilogSettingPath = "Common/Log/Serilog/Serilog-settings.xml";
+	private const string SerilogSettingPath = "Common/Log/Serilog/Serilog-settings.yaml";
 
 	[ShowBanner]
-	[ConfigService<LogConfiguration, XmlFileSerializer>(SerilogSettingPath, LogEventLevel.Debug)]
+	[ConfigService<LogConfiguration, YamlFileSerializer>(SerilogSettingPath, LogEventLevel.Debug)]
 	[RecordMethodTime(LogEventLevel.Information)]
 	[RecordException(true)]
 	public static void Main() { }
