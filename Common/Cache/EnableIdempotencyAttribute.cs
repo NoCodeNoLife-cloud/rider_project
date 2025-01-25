@@ -6,7 +6,7 @@ using Rougamo.Context;
 namespace Common.Cache;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class EnableIdempotency : MoAttribute
+public class EnableIdempotencyAttribute : MoAttribute
 {
 	private static readonly MemoryCache MethodRequestToken = MemoryCache.Default;
 

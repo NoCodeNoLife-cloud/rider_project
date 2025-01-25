@@ -1,7 +1,7 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class ValidatePositive : Attribute, IValidateParameter
+public class ValidatePositiveAttribute : Attribute, IValidateParameter
 {
 	public void Check(object? value)
 	{

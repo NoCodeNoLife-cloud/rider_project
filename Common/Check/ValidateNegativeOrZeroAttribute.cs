@@ -1,10 +1,8 @@
 ﻿namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class ValidateMin(double minValue) : Attribute, IValidateParameter
+public class ValidateNegativeOrZeroAttribute : Attribute, IValidateParameter
 {
-	private double MinValue { get; } = minValue;
-
 	public void Check(object? value)
 	{
 		switch (value)
@@ -13,9 +11,9 @@ public class ValidateMin(double minValue) : Attribute, IValidateParameter
 				throw new ArgumentException("Value cannot be null.");
 			case IComparable comparable:
 			{
-				if (comparable.CompareTo(MinValue) < 0)
+				if (comparable.CompareTo(0) > 0)
 				{
-					throw new ArgumentException($"Value must be greater than or equal to {MinValue}.");
+					throw new ArgumentException("Value must be a negative or zero number.");
 				}
 
 				break;

@@ -1,7 +1,7 @@
 ﻿namespace Common.Trace;
 
 [Flags]
-public enum TraceCalledItem
+public enum TracedItem
 {
 	OnEntry,
 	OnExit,

@@ -4,7 +4,8 @@ using Rougamo.Context;
 
 namespace Common.Banner;
 
-public class ShowBanner : MoAttribute
+[AttributeUsage(AttributeTargets.Method)]
+public class ShowBannerAttribute : MoAttribute
 {
 	private const string RootPath = "../../../../";
 

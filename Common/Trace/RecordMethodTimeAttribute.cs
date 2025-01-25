@@ -5,19 +5,19 @@ using Serilog.Events;
 namespace Common.Trace;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class RecordMethodTime(LogEventLevel logEventLevel) : MoAttribute
+public class RecordMethodTimeAttribute(LogEventLevel logEventLevel) : MoAttribute
 {
-	private FunctionPerformanceTracer? _functionPerformanceTracker;
+	private BenchmarkFunction? _benchmarkFunction;
 
 	public override void OnEntry(MethodContext context)
 	{
-		_functionPerformanceTracker = new FunctionPerformanceTracer(logEventLevel, 4);
+		_benchmarkFunction = new BenchmarkFunction(logEventLevel, 3);
 		base.OnEntry(context);
 	}
 
 	public override void OnExit(MethodContext context)
 	{
-		_functionPerformanceTracker?.Dispose();
+		_benchmarkFunction?.Record();
 		base.OnExit(context);
 	}
 }

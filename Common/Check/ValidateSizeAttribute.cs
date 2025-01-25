@@ -3,7 +3,7 @@
 namespace Common.Check;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class ValidateSize(int minValue, int maxValue) : Attribute, IValidateParameter
+public class ValidateSizeAttribute(int minValue, int maxValue) : Attribute, IValidateParameter
 {
 	private int MinValue { get; } = minValue;
 	private int MaxValue { get; } = maxValue;

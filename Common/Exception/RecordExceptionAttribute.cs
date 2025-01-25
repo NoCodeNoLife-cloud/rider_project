@@ -7,7 +7,7 @@ using Serilog.Events;
 namespace Common.Exception;
 
 [AttributeUsage(AttributeTargets.Method)]
-public partial class RecordException(bool handleException = false) : MoAttribute
+public partial class RecordExceptionAttribute(bool handleException = false) : MoAttribute
 {
 	public override void OnException(MethodContext context)
 	{
