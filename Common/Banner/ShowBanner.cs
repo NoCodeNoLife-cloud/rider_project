@@ -12,7 +12,7 @@ public class ShowBanner : MoAttribute
 	{
 		var content = File.ReadAllText(RootPath + "Common/Banner/Banner.txt", Encoding.UTF8);
 		Console.OutputEncoding = Encoding.UTF8;
-		Console.WriteLine(content, Console.ForegroundColor = ConsoleColor.Green);
+		Console.WriteLine(content, Console.ForegroundColor = ConsoleColor.Magenta);
 		Console.ResetColor();
 		base.OnEntry(context);
 	}

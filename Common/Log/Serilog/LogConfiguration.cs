@@ -9,10 +9,10 @@ namespace Common.Log.Serilog;
 [Serializable]
 public class LogConfiguration(bool writeToConsole, LogEventLevel logEventLevel, string logFormat, string ansiConsoleTheme) : IConfigurable
 {
-	[XmlElement] public bool WriteToConsole { get; set; } = writeToConsole;
-	[XmlElement] public LogEventLevel LogEventLevel { get; set; } = logEventLevel;
-	[XmlElement] public string LogFormat { get; set; } = logFormat;
-	[XmlElement] public string Theme { get; set; } = ansiConsoleTheme;
+	public bool WriteToConsole { get; set; } = writeToConsole;
+	public LogEventLevel LogEventLevel { get; set; } = logEventLevel;
+	public string LogFormat { get; set; } = logFormat;
+	public string Theme { get; set; } = ansiConsoleTheme;
 
 	public LogConfiguration() : this(false, LogEventLevel.Debug, "", "Code") { }
 
