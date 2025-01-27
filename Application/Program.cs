@@ -14,7 +14,7 @@ public static class Program
 
 	[ShowBanner]
 	[ConfigService<LogConfiguration, YamlFileSerializer>(SerilogSettingPath, LogEventLevel.Debug)]
-	[RecordMethodTime(LogEventLevel.Information)]
+	[RecordMethodTime(LogEventLevel.Debug)]
 	[RecordException(true)]
 	public static void Main() { }
 }

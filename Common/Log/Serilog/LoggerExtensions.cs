@@ -26,15 +26,15 @@ public static class LoggerExtensions
 	{
 		var colorCode = level switch
 		{
-			LogEventLevel.Verbose => "\x1b[34m",
-			LogEventLevel.Debug => "\x1b[90m",
-			LogEventLevel.Information => "\x1b[32m",
-			LogEventLevel.Warning => "\x1b[33m",
-			LogEventLevel.Error => "\x1b[31m",
-			LogEventLevel.Fatal => "\x1b[31m",
-			_ => "\x1b[37m",
+			LogEventLevel.Verbose => "\e[34m",
+			LogEventLevel.Debug => "\e[90m",
+			LogEventLevel.Information => "\e[32m",
+			LogEventLevel.Warning => "\e[33m",
+			LogEventLevel.Error => "\e[31m",
+			LogEventLevel.Fatal => "\e[31m",
+			_ => "\e[37m",
 		};
 
-		return $"{colorCode}{message}\x1b[0m";
+		return $"{colorCode}{message}\e[0m";
 	}
 }

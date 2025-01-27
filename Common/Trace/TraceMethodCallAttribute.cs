@@ -7,11 +7,11 @@ using Serilog.Events;
 namespace Common.Trace;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItem calledItem) : MoAttribute
+public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnum calledItemEnum) : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{
-		if (calledItem.HasFlag(TracedItem.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItemEnum.HasFlag(TracedItemEnum.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} start", logEventLevel);
 		}
@@ -21,7 +21,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItem ca
 
 	public override void OnException(MethodContext context)
 	{
-		if (calledItem.HasFlag(TracedItem.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItemEnum.HasFlag(TracedItemEnum.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
 		}
@@ -31,7 +31,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItem ca
 
 	public override void OnSuccess(MethodContext context)
 	{
-		if (calledItem.HasFlag(TracedItem.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItemEnum.HasFlag(TracedItemEnum.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} success", logEventLevel);
 		}
@@ -41,7 +41,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItem ca
 
 	public override void OnExit(MethodContext context)
 	{
-		if (calledItem.HasFlag(TracedItem.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
+		if (calledItemEnum.HasFlag(TracedItemEnum.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
 			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} end", logEventLevel);
 		}
