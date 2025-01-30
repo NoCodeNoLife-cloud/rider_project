@@ -6,7 +6,7 @@ using Serilog.Events;
 namespace Common.Trace;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class RecordMethodTimeAttribute(LogEventLevel logEventLevel) : MoAttribute
+public class RecordMethodTimeAttribute(LogEventLevel logEventLevel, bool profileDetail = false) : MoAttribute
 {
 	private static readonly Dictionary<string, MethodBenchmark> Benchmarks = [];
 	private const int TraceLevel = 3;
@@ -16,7 +16,7 @@ public class RecordMethodTimeAttribute(LogEventLevel logEventLevel) : MoAttribut
 		var key = CalcKey(context.Method, context.Arguments);
 		if (!Benchmarks.ContainsKey(key))
 		{
-			Benchmarks[key] = new MethodBenchmark(logEventLevel, TraceLevel);
+			Benchmarks[key] = new MethodBenchmark(logEventLevel, TraceLevel, profileDetail);
 		}
 
 		Benchmarks[key].StartProfile();

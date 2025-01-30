@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Common.Format;
 using Common.Log.Serilog;
 using Serilog.Events;
 
@@ -12,14 +11,20 @@ public class MethodBenchmark
 	private readonly int _traceLevel;
 	private long _time;
 	private ProfileData _profileData;
+	private bool _profileDetail;
 
-	public MethodBenchmark(LogEventLevel logEventLevel, int traceLevel)
+	public MethodBenchmark(LogEventLevel logEventLevel, int traceLevel, bool profileDetail)
 	{
 		_logEventLevel = logEventLevel;
 		if (!Serilog.Log.IsEnabled(_logEventLevel)) return;
 		_stopwatch = new Stopwatch();
 		_traceLevel = traceLevel;
-		Init();
+		_profileDetail = profileDetail;
+		if (_profileDetail)
+		{
+			Init();
+		}
+
 		StartProfile();
 	}
 
@@ -43,17 +48,20 @@ public class MethodBenchmark
 		if (!Serilog.Log.IsEnabled(_logEventLevel)) return;
 		_stopwatch.Stop();
 		_time = _stopwatch.ElapsedMilliseconds;
-		++_profileData.Runtimes;
-		_profileData.MaxRuntime = Math.Max(_time, _profileData.MaxRuntime);
-		_profileData.MinRuntime = Math.Min(_time, _profileData.MinRuntime);
-		_profileData.AvgRuntime = (_profileData.AvgRuntime * (_profileData.Runtimes - 1) + _time) / _profileData.Runtimes;
+		if (_profileDetail)
+		{
+			++_profileData.Runtimes;
+			_profileData.MaxRuntime = Math.Max(_time, _profileData.MaxRuntime);
+			_profileData.MinRuntime = Math.Min(_time, _profileData.MinRuntime);
+			_profileData.AvgRuntime = (_profileData.AvgRuntime * (_profileData.Runtimes - 1) + _time) / _profileData.Runtimes;
+		}
 	}
 
 	public void PrintProfile()
 	{
 		if (!Serilog.Log.IsEnabled(_logEventLevel)) return;
 		var callerMethodName = GetCallerMethodName();
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"{callerMethodName} finished in {_time} ms. [Max {_profileData.MaxRuntime} ms, Min {_profileData.MinRuntime} ms, Avg {_profileData.AvgRuntime} ms]", _logEventLevel);
+		Serilog.Log.Logger.LogColoredWithCallerInfo($"{callerMethodName} finished in {_time} ms. " + ((_profileDetail) ? $"[Max {_profileData.MaxRuntime} ms, Min {_profileData.MinRuntime} ms, Avg {_profileData.AvgRuntime} ms]" : string.Empty), _logEventLevel);
 	}
 
 	private string GetCallerMethodName()
