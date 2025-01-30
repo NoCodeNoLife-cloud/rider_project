@@ -11,7 +11,7 @@ public class MethodBenchmark
 	private readonly int _traceLevel;
 	private long _time;
 	private ProfileData _profileData;
-	private bool _profileDetail;
+	private readonly bool _profileDetail;
 
 	public MethodBenchmark(LogEventLevel logEventLevel, int traceLevel, bool profileDetail)
 	{
