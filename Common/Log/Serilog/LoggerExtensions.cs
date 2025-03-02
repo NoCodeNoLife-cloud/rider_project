@@ -35,6 +35,6 @@ public static class LoggerExtensions
 			_ => "\e[37m",
 		};
 
-		return $"{colorCode}{message}\e[0m";
+		return $" ==> {colorCode}{message}\e[0m";
 	}
 }
