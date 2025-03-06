@@ -22,6 +22,46 @@ public static class LoggerExtensions
 		logger.ForContext(enrich).Write(level, enrichedMessage);
 	}
 
+	public static void LogDebug(
+		this ILogger logger,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		LogColoredWithCallerInfo(logger, message, LogEventLevel.Debug, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
+	public static void LogInfo(
+		this ILogger logger,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		LogColoredWithCallerInfo(logger, message, LogEventLevel.Information, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
+	public static void LogError(
+		this ILogger logger,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		LogColoredWithCallerInfo(logger, message, LogEventLevel.Error, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
+	public static void LogFatal(
+		this ILogger logger,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		LogColoredWithCallerInfo(logger, message, LogEventLevel.Fatal, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
 	private static string EnrichMessageWithColor(string message, LogEventLevel level)
 	{
 		var colorCode = level switch

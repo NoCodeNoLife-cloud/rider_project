@@ -9,10 +9,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.csproj"/>
+        <Using Include="Serilog.Log" Static="true"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Rougamo.Fody" Version="5.0.0" />
+        <PackageReference Include="Rougamo.Fody" Version="5.0.0"/>
         <PackageReference Include="Serilog" Version="4.2.0"/>
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
     </ItemGroup>
