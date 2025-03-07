@@ -3,6 +3,7 @@ using Common.Exception;
 using Common.FileSystem.Serializer;
 using Common.Log.Serilog;
 using Common.Trace;
+using Serilog;
 using Serilog.Events;
 
 namespace Application;

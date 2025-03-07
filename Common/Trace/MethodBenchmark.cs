@@ -61,7 +61,7 @@ public class MethodBenchmark
 	{
 		if (!Serilog.Log.IsEnabled(_logEventLevel)) return;
 		var callerMethodName = GetCallerMethodName();
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"{callerMethodName} finished in {_time} ms. " + ((_profileDetail) ? $"[Max {_profileData.MaxRuntime} ms, Min {_profileData.MinRuntime} ms, Avg {_profileData.AvgRuntime} ms]" : string.Empty), _logEventLevel);
+		Serilog.Log.Logger.LogWithLevel($"{callerMethodName} finished in {_time} ms. " + ((_profileDetail) ? $"[Max {_profileData.MaxRuntime} ms, Min {_profileData.MinRuntime} ms, Avg {_profileData.AvgRuntime} ms]" : string.Empty), _logEventLevel);
 	}
 
 	private string GetCallerMethodName()

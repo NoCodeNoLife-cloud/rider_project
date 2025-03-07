@@ -7,7 +7,7 @@ namespace Common.Log.Serilog;
 
 public static class LoggerExtensions
 {
-	public static void LogColoredWithCallerInfo(
+	public static void LogWithLevel(
 		this ILogger logger,
 		string message,
 		LogEventLevel level = LogEventLevel.Information,
@@ -15,11 +15,7 @@ public static class LoggerExtensions
 		[CallerFilePath] string callerFilePath = "",
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
-		var callerFileUrl = Path.GetFileName(callerFilePath);
-		var callerThreadName = Thread.CurrentThread.Name ?? $"Thread-{Environment.CurrentManagedThreadId}";
-		var enrichedMessage = EnrichMessageWithColor(message, level);
-		ILogEventEnricher enrich = new DynamicCallerInfoEnrich(callerThreadName, callerMemberName, callerFileUrl, callerLineNumber);
-		logger.ForContext(enrich).Write(level, enrichedMessage);
+		CustomLog(logger, message, level, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
 	public static void LogDebug(
@@ -29,7 +25,7 @@ public static class LoggerExtensions
 		[CallerFilePath] string callerFilePath = "",
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
-		LogColoredWithCallerInfo(logger, message, LogEventLevel.Debug, callerMemberName, callerFilePath, callerLineNumber);
+		CustomLog(logger, message, LogEventLevel.Debug, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
 	public static void LogInfo(
@@ -39,7 +35,7 @@ public static class LoggerExtensions
 		[CallerFilePath] string callerFilePath = "",
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
-		LogColoredWithCallerInfo(logger, message, LogEventLevel.Information, callerMemberName, callerFilePath, callerLineNumber);
+		CustomLog(logger, message, LogEventLevel.Information, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
 	public static void LogError(
@@ -49,7 +45,7 @@ public static class LoggerExtensions
 		[CallerFilePath] string callerFilePath = "",
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
-		LogColoredWithCallerInfo(logger, message, LogEventLevel.Error, callerMemberName, callerFilePath, callerLineNumber);
+		CustomLog(logger, message, LogEventLevel.Error, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
 	public static void LogFatal(
@@ -59,7 +55,22 @@ public static class LoggerExtensions
 		[CallerFilePath] string callerFilePath = "",
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
-		LogColoredWithCallerInfo(logger, message, LogEventLevel.Fatal, callerMemberName, callerFilePath, callerLineNumber);
+		CustomLog(logger, message, LogEventLevel.Fatal, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
+	private static void CustomLog(
+		this ILogger logger,
+		string message,
+		LogEventLevel level = LogEventLevel.Information,
+		string callerMemberName = "",
+		string callerFilePath = "",
+		int callerLineNumber = 0)
+	{
+		var callerFileUrl = Path.GetFileName(callerFilePath);
+		var callerThreadName = Thread.CurrentThread.Name ?? $"Thread-{Environment.CurrentManagedThreadId}";
+		var enrichedMessage = EnrichMessageWithColor(message, level);
+		ILogEventEnricher enrich = new DynamicCallerInfoEnrich(callerThreadName, callerMemberName, callerFileUrl, callerLineNumber);
+		logger.ForContext(enrich).Write(level, enrichedMessage);
 	}
 
 	private static string EnrichMessageWithColor(string message, LogEventLevel level)

@@ -13,7 +13,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} start", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} start", logEventLevel);
 		}
 
 		base.OnEntry(context);
@@ -23,7 +23,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
 		}
 
 		base.OnException(context);
@@ -33,7 +33,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} success", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} success", logEventLevel);
 		}
 
 		base.OnSuccess(context);
@@ -43,7 +43,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogColoredWithCallerInfo($"{GetCallerMethodName()} end", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} end", logEventLevel);
 		}
 
 		base.OnExit(context);

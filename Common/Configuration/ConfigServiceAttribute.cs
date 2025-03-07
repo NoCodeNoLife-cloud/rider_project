@@ -25,7 +25,7 @@ public class ConfigServiceAttribute<TV, TS>(string? settingFilePath, LogEventLev
 		}
 
 		config?.Configure();
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"finished configure {typeof(TV)} from {settingFilePath}", logEventLevel);
+		Serilog.Log.Logger.LogWithLevel($"finished configure {typeof(TV)} from {settingFilePath}", logEventLevel);
 		base.OnEntry(context);
 	}
 }

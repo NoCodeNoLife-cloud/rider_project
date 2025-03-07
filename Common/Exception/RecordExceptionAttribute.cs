@@ -13,12 +13,12 @@ public partial class RecordExceptionAttribute(bool handleException = false) : Mo
 	{
 		if (handleException)
 		{
-			Serilog.Log.Logger.LogColoredWithCallerInfo($"ignored exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Warning);
+			Serilog.Log.Logger.LogWithLevel($"ignored exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Warning);
 			context.HandledException(this, context.ReturnValue!);
 			return;
 		}
 
-		Serilog.Log.Logger.LogColoredWithCallerInfo($"throw exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Error);
+		Serilog.Log.Logger.LogWithLevel($"throw exception: {FormatExceptionStackTrace(context.Exception!)}", LogEventLevel.Error);
 	}
 
 	[GeneratedRegex(@"\s+at\s+(.*)\s+in\s+(.+):line\s+(\d+)")]
