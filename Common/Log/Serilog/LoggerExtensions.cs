@@ -28,6 +28,20 @@ public static class LoggerExtensions
 		CustomLog(logger, message, LogEventLevel.Debug, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
+	public static void ConditionalLogDebug(
+		this ILogger logger,
+		bool condition,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		if (condition)
+		{
+			CustomLog(logger, message, LogEventLevel.Debug, callerMemberName, callerFilePath, callerLineNumber);
+		}
+	}
+
 	public static void LogInfo(
 		this ILogger logger,
 		string message,
@@ -36,6 +50,20 @@ public static class LoggerExtensions
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
 		CustomLog(logger, message, LogEventLevel.Information, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
+	public static void ConditionalLogInfo(
+		this ILogger logger,
+		bool condition,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		if (condition)
+		{
+			CustomLog(logger, message, LogEventLevel.Information, callerMemberName, callerFilePath, callerLineNumber);
+		}
 	}
 
 	public static void LogError(
@@ -48,6 +76,20 @@ public static class LoggerExtensions
 		CustomLog(logger, message, LogEventLevel.Error, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
+	public static void ConditionalLogError(
+		this ILogger logger,
+		bool condition,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		if (condition)
+		{
+			CustomLog(logger, message, LogEventLevel.Error, callerMemberName, callerFilePath, callerLineNumber);
+		}
+	}
+
 	public static void LogFatal(
 		this ILogger logger,
 		string message,
@@ -56,6 +98,20 @@ public static class LoggerExtensions
 		[CallerLineNumber] int callerLineNumber = 0)
 	{
 		CustomLog(logger, message, LogEventLevel.Fatal, callerMemberName, callerFilePath, callerLineNumber);
+	}
+
+	public static void ConditionalLogFatal(
+		this ILogger logger,
+		bool condition,
+		string message,
+		[CallerMemberName] string callerMemberName = "",
+		[CallerFilePath] string callerFilePath = "",
+		[CallerLineNumber] int callerLineNumber = 0)
+	{
+		if (condition)
+		{
+			CustomLog(logger, message, LogEventLevel.Fatal, callerMemberName, callerFilePath, callerLineNumber);
+		}
 	}
 
 	private static void CustomLog(
@@ -71,6 +127,10 @@ public static class LoggerExtensions
 		var enrichedMessage = EnrichMessageWithColor(message, level);
 		ILogEventEnricher enrich = new DynamicCallerInfoEnrich(callerThreadName, callerMemberName, callerFileUrl, callerLineNumber);
 		logger.ForContext(enrich).Write(level, enrichedMessage);
+		if (level == LogEventLevel.Fatal)
+		{
+			throw new System.Exception($"Fatal error: {message}");
+		}
 	}
 
 	private static string EnrichMessageWithColor(string message, LogEventLevel level)
