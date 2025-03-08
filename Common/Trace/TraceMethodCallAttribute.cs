@@ -1,10 +1,20 @@
 ﻿using System.Diagnostics;
 using Common.Log.Serilog;
+using Common.Runtime;
 using Rougamo;
 using Rougamo.Context;
 using Serilog.Events;
 
 namespace Common.Trace;
+
+[Flags]
+public enum TracedItemEnum
+{
+	OnEntry,
+	OnExit,
+	OnException,
+	OnSuccess
+}
 
 [AttributeUsage(AttributeTargets.Method)]
 public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnum calledItemEnum) : MoAttribute
@@ -13,7 +23,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} start", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} start", logEventLevel);
 		}
 
 		base.OnEntry(context);
@@ -23,7 +33,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
 		}
 
 		base.OnException(context);
@@ -33,7 +43,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} success", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} success", logEventLevel);
 		}
 
 		base.OnSuccess(context);
@@ -43,17 +53,9 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{GetCallerMethodName()} end", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} end", logEventLevel);
 		}
 
 		base.OnExit(context);
-	}
-
-	private static string GetCallerMethodName()
-	{
-		var stackTrace = new StackTrace();
-		var frame = stackTrace.GetFrame(2);
-		var method = frame?.GetMethod();
-		return method?.Name ?? "Unknown Method";
 	}
 }

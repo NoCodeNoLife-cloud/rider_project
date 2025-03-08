@@ -18,7 +18,7 @@ public static class LoggerExtensions
 		CustomLog(logger, message, level, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
-	public static void LogDebug(
+	public static void Debug(
 		this ILogger logger,
 		string message,
 		[CallerMemberName] string callerMemberName = "",
@@ -28,7 +28,7 @@ public static class LoggerExtensions
 		CustomLog(logger, message, LogEventLevel.Debug, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
-	public static void ConditionalLogDebug(
+	public static void ConditionalDebug(
 		this ILogger logger,
 		bool condition,
 		string message,
@@ -42,7 +42,7 @@ public static class LoggerExtensions
 		}
 	}
 
-	public static void LogInfo(
+	public static void Info(
 		this ILogger logger,
 		string message,
 		[CallerMemberName] string callerMemberName = "",
@@ -52,7 +52,7 @@ public static class LoggerExtensions
 		CustomLog(logger, message, LogEventLevel.Information, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
-	public static void ConditionalLogInfo(
+	public static void ConditionalInfo(
 		this ILogger logger,
 		bool condition,
 		string message,
@@ -66,7 +66,7 @@ public static class LoggerExtensions
 		}
 	}
 
-	public static void LogError(
+	public static void Error(
 		this ILogger logger,
 		string message,
 		[CallerMemberName] string callerMemberName = "",
@@ -76,7 +76,7 @@ public static class LoggerExtensions
 		CustomLog(logger, message, LogEventLevel.Error, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
-	public static void ConditionalLogError(
+	public static void ConditionalError(
 		this ILogger logger,
 		bool condition,
 		string message,
@@ -90,7 +90,7 @@ public static class LoggerExtensions
 		}
 	}
 
-	public static void LogFatal(
+	public static void Fatal(
 		this ILogger logger,
 		string message,
 		[CallerMemberName] string callerMemberName = "",
@@ -100,7 +100,7 @@ public static class LoggerExtensions
 		CustomLog(logger, message, LogEventLevel.Fatal, callerMemberName, callerFilePath, callerLineNumber);
 	}
 
-	public static void ConditionalLogFatal(
+	public static void ConditionalFatal(
 		this ILogger logger,
 		bool condition,
 		string message,

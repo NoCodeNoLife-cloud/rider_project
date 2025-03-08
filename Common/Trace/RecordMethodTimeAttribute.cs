@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Common.Runtime;
 using Rougamo;
 using Rougamo.Context;
 using Serilog.Events;
@@ -13,28 +14,22 @@ public class RecordMethodTimeAttribute(LogEventLevel logEventLevel, bool profile
 
 	public override void OnEntry(MethodContext context)
 	{
-		var key = CalcKey(context.Method, context.Arguments);
-		if (!Benchmarks.ContainsKey(key))
+		var key = MethodRuntime.GenerateFunctionBasedUniqueId(context.Method, context.Arguments);
+		if (!Benchmarks.TryGetValue(key, out var value))
 		{
-			Benchmarks[key] = new MethodBenchmark(logEventLevel, TraceLevel, profileDetail);
+			value = new MethodBenchmark(logEventLevel, TraceLevel, profileDetail);
+			Benchmarks[key] = value;
 		}
 
-		Benchmarks[key].StartProfile();
+		value.StartProfile();
 		base.OnEntry(context);
 	}
 
 	public override void OnExit(MethodContext context)
 	{
-		var benchmark = Benchmarks[CalcKey(context.Method, context.Arguments)];
-		benchmark.Record();
+		var benchmark = Benchmarks[MethodRuntime.GenerateFunctionBasedUniqueId(context.Method, context.Arguments)];
+		benchmark.StopProfileAndRecord();
 		benchmark.PrintProfile();
 		base.OnExit(context);
-	}
-
-	private static string CalcKey(MethodBase method, object?[] arguments)
-	{
-		var methodKey = method.DeclaringType?.FullName + "." + method.Name;
-		var argumentsKey = string.Join(",", arguments.Select(arg => arg?.ToString() ?? "null"));
-		return $"{methodKey}({argumentsKey})";
 	}
 }

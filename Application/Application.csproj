@@ -9,7 +9,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.csproj"/>
-        <Using Include="Serilog.Log" Static="true"/>
     </ItemGroup>
 
     <ItemGroup>

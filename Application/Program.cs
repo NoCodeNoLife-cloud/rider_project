@@ -1,4 +1,5 @@
-﻿using Common.Configuration;
+﻿using System.Diagnostics;
+using Common.Configuration;
 using Common.Exception;
 using Common.FileSystem.Serializer;
 using Common.Log.Serilog;
