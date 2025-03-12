@@ -2,7 +2,7 @@
 using Rougamo;
 using Rougamo.Context;
 
-namespace Common.Check;
+namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method)]
 public class ValidateParameterAttribute : MoAttribute

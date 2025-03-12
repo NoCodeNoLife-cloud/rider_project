@@ -1,4 +1,4 @@
-﻿namespace Common.Check;
+﻿namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
 public class ValidateNegativeAttribute : Attribute, IValidateParameter

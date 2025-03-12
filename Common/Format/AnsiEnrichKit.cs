@@ -1,6 +1,33 @@
 ﻿namespace Common.Format;
 
-public abstract class AnsiEscape
+[Flags]
+public enum AnsiStyleEnum
+{
+	Bold,
+	Underline,
+	Inverse,
+	Strikethrough,
+	Bright,
+	Invisible,
+	Black,
+	Red,
+	Green,
+	Yellow,
+	Blue,
+	Magenta,
+	Cyan,
+	White,
+	BgBlack,
+	BgRed,
+	BgGreen,
+	BgYellow,
+	BgBlue,
+	BgMagenta,
+	BgCyan,
+	BgWhite
+}
+
+public abstract class AnsiEnrichKit
 {
 	private static readonly Dictionary<AnsiStyleEnum, string[]> AnsiStyles = new()
 	{

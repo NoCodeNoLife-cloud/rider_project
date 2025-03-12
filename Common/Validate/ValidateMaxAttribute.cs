@@ -1,9 +1,9 @@
-﻿namespace Common.Check;
+﻿namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
-public class ValidateMinAttribute(double minValue) : Attribute, IValidateParameter
+public class ValidateMaxAttribute(double maxValue) : Attribute, IValidateParameter
 {
-	private double MinValue { get; } = minValue;
+	private double MaxValue { get; } = maxValue;
 
 	public void Check(object? value)
 	{
@@ -13,9 +13,9 @@ public class ValidateMinAttribute(double minValue) : Attribute, IValidateParamet
 				throw new ArgumentException("Value cannot be null.");
 			case IComparable comparable:
 			{
-				if (comparable.CompareTo(MinValue) < 0)
+				if (comparable.CompareTo(MaxValue) > 0)
 				{
-					throw new ArgumentException($"Value must be greater than or equal to {MinValue}.");
+					throw new ArgumentException($"Value must be less than or equal to {MaxValue}.");
 				}
 
 				break;

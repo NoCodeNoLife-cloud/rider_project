@@ -1,4 +1,4 @@
-﻿using Common.Check;
+﻿using Common.Validate;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Common.Check;
+namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
 public class ValidateNotEmptyAttribute : Attribute, IValidateParameter

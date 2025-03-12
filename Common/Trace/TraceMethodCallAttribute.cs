@@ -17,13 +17,13 @@ public enum TracedItemEnum
 }
 
 [AttributeUsage(AttributeTargets.Method)]
-public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnum calledItemEnum) : MoAttribute
+public class TraceMethodCallAttribute(LogEventLevel logEventLevel = LogEventLevel.Debug, TracedItemEnum calledItemEnum = TracedItemEnum.OnEntry | TracedItemEnum.OnExit) : MoAttribute
 {
 	public override void OnEntry(MethodContext context)
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnEntry) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} start", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntimeKit.GetCallerMethodName()} entry", logEventLevel);
 		}
 
 		base.OnEntry(context);
@@ -33,7 +33,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnException) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntimeKit.GetCallerMethodName()} throw {context.Exception?.Message}", logEventLevel);
 		}
 
 		base.OnException(context);
@@ -43,7 +43,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnSuccess) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} success", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntimeKit.GetCallerMethodName()} success", logEventLevel);
 		}
 
 		base.OnSuccess(context);
@@ -53,7 +53,7 @@ public class TraceMethodCallAttribute(LogEventLevel logEventLevel, TracedItemEnu
 	{
 		if (calledItemEnum.HasFlag(TracedItemEnum.OnExit) && Serilog.Log.Logger.IsEnabled(logEventLevel))
 		{
-			Serilog.Log.Logger.LogWithLevel($"{MethodRuntime.GetCallerMethodName()} end", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"{MethodRuntimeKit.GetCallerMethodName()} exit", logEventLevel);
 		}
 
 		base.OnExit(context);

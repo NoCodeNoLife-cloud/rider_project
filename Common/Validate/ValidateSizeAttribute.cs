@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 
-namespace Common.Check;
+namespace Common.Validate;
 
 [AttributeUsage(AttributeTargets.Parameter)]
 public class ValidateSizeAttribute(int minValue, int maxValue) : Attribute, IValidateParameter
 {
-	private int MinValue { get; } = minValue;
-	private int MaxValue { get; } = maxValue;
-
 	public void Check(object? value)
 	{
 		switch (value)
@@ -17,9 +14,9 @@ public class ValidateSizeAttribute(int minValue, int maxValue) : Attribute, IVal
 			case string str:
 			{
 				var length = str.Length;
-				if (length < MinValue || length > MaxValue)
+				if (length < minValue || length > maxValue)
 				{
-					throw new ArgumentException($"String length must be between {MinValue} and {MaxValue} characters.");
+					throw new ArgumentException($"String length must be between {minValue} and {maxValue} characters.");
 				}
 
 				break;
@@ -27,9 +24,9 @@ public class ValidateSizeAttribute(int minValue, int maxValue) : Attribute, IVal
 			case ICollection collection:
 			{
 				var count = collection.Count;
-				if (count < MinValue || count > MaxValue)
+				if (count < minValue || count > maxValue)
 				{
-					throw new ArgumentException($"Collection size must be between {MinValue} and {MaxValue}.");
+					throw new ArgumentException($"Collection size must be between {minValue} and {maxValue}.");
 				}
 
 				break;
@@ -39,9 +36,9 @@ public class ValidateSizeAttribute(int minValue, int maxValue) : Attribute, IVal
 				if (value is Array array)
 				{
 					var length = array.Length;
-					if (length < MinValue || length > MaxValue)
+					if (length < minValue || length > maxValue)
 					{
-						throw new ArgumentException($"Array length must be between {MinValue} and {MaxValue}.");
+						throw new ArgumentException($"Array length must be between {minValue} and {maxValue}.");
 					}
 				}
 				else

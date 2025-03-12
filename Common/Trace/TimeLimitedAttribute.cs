@@ -8,9 +8,9 @@ using Serilog.Events;
 namespace Common.Trace;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class TimeLimitedAttribute(LogEventLevel logEventLevel, bool profileDetail, int timeoutThreshold) : MoAttribute
+public class TimeLimitedAttribute(int timeoutThreshold, LogEventLevel logEventLevel = LogEventLevel.Debug, bool profileDetail = false) : MoAttribute
 {
-	private readonly MethodBenchmark _benchmark = new(logEventLevel, 3, profileDetail);
+	private readonly PerformanceMonitor _benchmark = new(logEventLevel, 3, profileDetail);
 
 	public override void OnEntry(MethodContext context)
 	{
@@ -23,7 +23,7 @@ public class TimeLimitedAttribute(LogEventLevel logEventLevel, bool profileDetai
 		_benchmark.StopProfileAndRecord();
 		if (_benchmark.time > timeoutThreshold)
 		{
-			Serilog.Log.Logger.LogWithLevel($"Method {MethodRuntime.GetCallerMethodName()} timeout: {_benchmark.time}ms/{timeoutThreshold}ms", logEventLevel);
+			Serilog.Log.Logger.LogWithLevel($"Method {MethodRuntimeKit.GetCallerMethodName()} timeout: {_benchmark.time}ms/{timeoutThreshold}ms", logEventLevel);
 		}
 
 		base.OnExit(context);

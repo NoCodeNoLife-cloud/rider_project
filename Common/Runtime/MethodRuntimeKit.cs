@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Common.Runtime;
 
-public static class MethodRuntime
+public static class MethodRuntimeKit
 {
 	public static string GetCallerMethodName()
 	{
