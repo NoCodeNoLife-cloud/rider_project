@@ -2,5 +2,5 @@
 
 public interface IConfigurable
 {
-	public void Configure();
+    public void Configure();
 }

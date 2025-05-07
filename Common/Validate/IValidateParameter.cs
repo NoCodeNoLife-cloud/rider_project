@@ -2,5 +2,5 @@
 
 public interface IValidateParameter
 {
-	public void Check(object? value);
+    public void Check(object? value);
 }

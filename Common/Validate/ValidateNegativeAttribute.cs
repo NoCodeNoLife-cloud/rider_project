@@ -3,23 +3,20 @@
 [AttributeUsage(AttributeTargets.Parameter)]
 public class ValidateNegativeAttribute : Attribute, IValidateParameter
 {
-	public void Check(object? value)
-	{
-		switch (value)
-		{
-			case null:
-				throw new ArgumentException("Value cannot be null.");
-			case IComparable comparable:
-			{
-				if (comparable.CompareTo(0) >= 0)
-				{
-					throw new ArgumentException("Value must be a negative number.");
-				}
+    public void Check(object? value)
+    {
+        switch (value)
+        {
+            case null:
+                throw new ArgumentException("Value cannot be null.");
+            case IComparable comparable:
+            {
+                if (comparable.CompareTo(0) >= 0) throw new ArgumentException("Value must be a negative number.");
 
-				break;
-			}
-			default:
-				throw new ArgumentException("Value must be a numeric type.");
-		}
-	}
+                break;
+            }
+            default:
+                throw new ArgumentException("Value must be a numeric type.");
+        }
+    }
 }
